@@ -38,6 +38,17 @@ function errHandler (err, res) {
 }
 
 function apiHandler (req, res) {
-  res.setHeader('Content-Type', mime.lookup('json'));
-  res.end(JSON.stringify({ potatoes: true }));
+  if (req.method === 'GET') {
+    var pathname = url.parse(req.url).pathname
+    if (pathname === '/api/potatoes') {
+      res.setHeader('Content-Type', mime.lookup('json'));
+      res.end(JSON.stringify({ potatoes: true }));
+    } else if (pathname === '/api/turnips') {
+      res.setHeader('Content-Type', mime.lookup('json'));
+      res.end(JSON.stringify({ turnips: true }));
+    } else {
+      res.statusCode = 404;
+      res.end();
+    }
+  }
 }
